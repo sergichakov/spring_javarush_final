@@ -15,7 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
-//@UtilityClass
+@UtilityClass
 public class FileUtil {
     public static class MyMultipartFile implements MultipartFile{
         private Path path;
@@ -68,12 +68,6 @@ public class FileUtil {
             Files.copy(path, dest);
         }
     }
-    public static void main(String[] args) {
-        FileUtil fileUtil=new FileUtil();
-        Path path= Paths.get("/home/user/.profile");//,".profile");
-        FileUtil.MyMultipartFile multipartFile=new FileUtil.MyMultipartFile(path);
-        fileUtil.upload(multipartFile,"/home/user/","New_Document.txt");
-    }
     private static final String ATTACHMENT_PATH = "./attachments/%s/";
 
     public static void upload(MultipartFile multipartFile, String directoryPath, String fileName) {
@@ -81,30 +75,18 @@ public class FileUtil {
             throw new IllegalRequestDataException("Select a file to upload.");
         }
         Path dir=Paths.get(directoryPath);
-        if (Files.exists(dir) ){ //|| Files.createDirectories(path)!=null) {//path.toFile().isDirectory()&&path.toFile().exists()){
+        if (Files.exists(dir) ){
             Path file = Paths.get(directoryPath+fileName);
 
             try {
                 Files.write(file,
                         multipartFile.getBytes());
-//                        StandardCharsets.UTF_8,
-//                        StandardOpenOption.CREATE,
-//                        StandardOpenOption.TRUNCATE_EXISTING);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
 
         }
 
-        /*File dir = new File(directoryPath);
-        if (dir.exists() || dir.mkdirs()) {
-            File file = new File(directoryPath + fileName);
-            try (OutputStream outStream = new FileOutputStream(file)) {
-                outStream.write(multipartFile.getBytes());
-            } catch (IOException ex) {
-                throw new IllegalRequestDataException("Failed to upload file" + multipartFile.getOriginalFilename());
-            }
-        }*/
     }
 
     public static Resource download(String fileLink) {

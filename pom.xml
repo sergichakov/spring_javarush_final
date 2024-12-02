@@ -5,8 +5,8 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.13</version>  <!--3.0.2 -->
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>3.0.2</version>
+        <relativePath/>
     </parent>
 
     <groupId>com.javarush</groupId>
@@ -61,20 +61,6 @@
             <version>0.12.6</version>
             <scope>runtime</scope>
         </dependency>
-
-        <!--  <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-impl</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-jackson</artifactId>
-        </dependency>
-              jackson-->
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-hibernate5-jakarta</artifactId>
@@ -178,21 +164,6 @@
     </dependencies>
 
     <build>
-      <!--   <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>**/*.properties</include>
-                    <include>*.properties</include>
-                </includes>
-            </resource>
-
-        </resources>
-        <filters>
-            <filter>___application-secret___.properties__</filter>
-        </filters>
-        -->
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

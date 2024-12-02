@@ -35,16 +35,9 @@ public class UserService {
      * @return созданный пользователь
      */
     public User create(User user) {
-        /*if (repository.(user.getDisplayName())!=null) {
-            // Заменить на свои исключения
-            throw new RuntimeException("Пользователь с таким именем уже существует");
-        }*/
-        System.out.println("create user = "+user);
-
         if (repository.findByEmailIgnoreCase(user.getEmail()).isPresent()) {
             throw new RuntimeException("Пользователь с таким email уже существует");
         }
-
         return save(user);
     }
 
@@ -55,7 +48,6 @@ public class UserService {
      */
     public UserDetails getByUsername(String email) throws UsernameNotFoundException {
         User user = repository.findByEmailIgnoreCase(email).orElse(null);
-                //.orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
         if (user==null){
             throw new UsernameNotFoundException("Пользователь не найден");
         }
@@ -71,13 +63,10 @@ public class UserService {
      */
     public UserDetailsService userDetailsService(){
         UserDetailsService getByUsername;
-
-
         getByUsername = email -> {
             try {
                 return getByUsername(email);
             } catch (UsernameNotFoundException e) {
-                System.out.println("UserDetailsService again");
                 throw new RuntimeException(e);
             }
         };
@@ -107,7 +96,6 @@ public class UserService {
 
         User user=repository.findByEmailIgnoreCase(userDetails.getUsername()).orElse(null);
         if (user==null){
-            System.out.println("User from userDetails is null ="+userDetails.getUsername());
             return;
         }
         Set set=new HashSet();

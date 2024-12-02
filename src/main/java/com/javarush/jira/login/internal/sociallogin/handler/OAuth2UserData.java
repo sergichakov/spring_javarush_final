@@ -16,7 +16,6 @@ public class OAuth2UserData {
         A attribute = oAuth2User.getAttribute(name);
         String tokenValue=oAuth2UserRequest.getAccessToken().getTokenValue();
         String clientId=oAuth2UserRequest.getClientRegistration().getClientId();
-        System.out.println("OAuth2UserData username="+name+" clientId="+clientId+" tokenValue="+tokenValue);
         return attribute != null ? attribute : (A) oAuth2UserRequest.getAdditionalParameters().get(name);
     }
 }

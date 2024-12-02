@@ -38,19 +38,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
-        System.out.println("JwtAuthenticationFilter filter");
         Enumeration<String> str= request.getHeaderNames();
         while(str.hasMoreElements()){
             String string=str.nextElement();
-            System.out.println(string+" = "+request.getHeader(string));
-            //String param = (String) str.nextElement();
         }
-        System.out.println("Header names = " + request.getHeaderNames());
         // Получаем токен из заголовка
         var authHeader = request.getHeader(HEADER_NAME);
         if (StringUtils.isEmpty(authHeader) || !StringUtils.startsWith(authHeader, BEARER_PREFIX)) {
             filterChain.doFilter(request, response);
-            System.out.println("= i dont know why return is here "+authHeader);
             return;
         }
 
@@ -66,7 +61,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             // Если токен валиден, то аутентифицируем пользователя
             if (jwtService.isTokenValid(jwt, userDetails)) {
                 String state=jwtService.extractState(jwt);
-                System.out.println("One more token went though "+state+" username = "+username);
                 if(state.equals("access")){
                     SecurityContext context = SecurityContextHolder.createEmptyContext();
 
@@ -87,72 +81,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     Map<String, Object> accessTokenDetails = new HashMap<>();
                     accessTokenDetails.put("access", accessToken);
                     accessTokenDetails.put("refresh", null);
-                    httpServletResponse.setStatus(HttpStatus.NON_AUTHORITATIVE_INFORMATION.value());//203
+                    httpServletResponse.setStatus(HttpStatus.NON_AUTHORITATIVE_INFORMATION.value());
                     httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
                     ObjectMapper mapper= new ObjectMapper();
-                    //var printWriter=httpServletResponse.getWriter();
-                    //printWriter.println(accessToken);
                     mapper.writeValue(httpServletResponse.getWriter(), accessTokenDetails);
                     return;
                 }
-            }else{
-                System.out.println("Token not valid "+userDetails.getUsername());
-            }
-
-        }
-        filterChain.doFilter(request, response);
-    }
-}
-/*
-@Component
-@RequiredArgsConstructor
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    public static final String BEARER_PREFIX = "Bearer ";
-    public static final String HEADER_NAME = "Authorization";
-    private final JwtService jwtService;
-    private final UserService userService;
-
-    @Override
-    protected void doFilterInternal(
-            @NonNull HttpServletRequest request,
-            @NonNull HttpServletResponse response,
-            @NonNull FilterChain filterChain
-    ) throws ServletException, IOException {
-
-        // Получаем токен из заголовка
-        var authHeader = request.getHeader(HEADER_NAME);
-        if (StringUtils.isEmpty(authHeader) || !StringUtils.startsWith(authHeader, BEARER_PREFIX)) {
-            filterChain.doFilter(request, response);
-            System.out.println("i dont know why return is here");
-            return;
-        }
-
-        // Обрезаем префикс и получаем имя пользователя из токена
-        var jwt = authHeader.substring(BEARER_PREFIX.length());
-        var username = jwtService.extractUserName(jwt);
-
-        if (StringUtils.isNotEmpty(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userService
-                    .userDetailsService()
-                    .loadUserByUsername(username);
-
-            // Если токен валиден, то аутентифицируем пользователя
-            if (jwtService.isTokenValid(jwt, userDetails)) {
-                SecurityContext context = SecurityContextHolder.createEmptyContext();
-
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        null,
-                        userDetails.getAuthorities()
-                );
-
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                context.setAuthentication(authToken);
-                SecurityContextHolder.setContext(context);
             }
         }
         filterChain.doFilter(request, response);
     }
 }
-
-*/

@@ -12,7 +12,6 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 public class TagTo extends BaseTo {
-    //private Set<String> set;
     private String tag;
 
 }

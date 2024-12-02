@@ -5,5 +5,12 @@ target
 logs
 attachments
 *.patch
-
-
+config/_application-prod.yaml___
+src/main/java/com/javarush/jira/bugtracking/attachment/FileUtil.java_
+src/main/java/com/javarush/jira/bugtracking/attachment/FileUtil_.java
+src/main/resources/___application-secret___.properties__
+src/test/java/com/javarush/jira/profile/internal/web/ProfileRestControllerTest_My_hidden.java
+src/main/java/com/javarush/jira/common/internal/config/DataSourceConfigurationProfiles.java
+src/main/java/com/javarush/jira/bugtracking/local/LocalInternalizationController.java
+logs/
+src/test/java/com/javarush/jira/common/util/UtilTest.java

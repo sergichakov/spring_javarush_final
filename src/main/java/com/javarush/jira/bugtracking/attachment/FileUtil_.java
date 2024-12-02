@@ -67,12 +67,6 @@ public class FileUtil_ {
             Files.copy(path, dest);
         }
     }
-    public static void main(String[] args) {
-        FileUtil fileUtil=new FileUtil();
-        Path path= Paths.get("/home/user/.profile");//,".profile");
-        MyMultipartFile multipartFile=new MyMultipartFile(path);
-        fileUtil.upload(multipartFile,"/home/user/","New_Document.txt");
-    }
     private static final String ATTACHMENT_PATH = "./attachments/%s/";
 
     public static void upload(MultipartFile multipartFile, String directoryPath, String fileName) {

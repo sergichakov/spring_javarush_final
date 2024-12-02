@@ -50,26 +50,7 @@ class TaskControllerTest extends AbstractControllerTest {
     private ActivityRepository activityRepository;
     @Autowired
     private UserBelongRepository userBelongRepository;
-//    @Test
-//    //@WithUserDetails(value=USER_MAIL)
-//    @Transactional
-//    public void createTaskEntity(){
-//
-//        List<Task> tasks=taskRepository.findAllById(()-> Set.of(1L).iterator());
-//        for (Task t : tasks){
-//            System.out.println("several tasks"+t.getTags());
-//            Set <String> seat=new HashSet<String>();
-//            seat.add("tag1");
-//            t.setTags(seat);
-//        }
-//
-//        taskRepository.save(tasks.get(0));
-//        taskRepository.flush();
-//        List<Task> tasks2=taskRepository.findAllById(()-> Set.of(1L).iterator());
-//        for (Task t : tasks2) {
-//            System.out.println("several tasks again" + t.getTags());
-//        }
-//    }
+
     @Test
     @WithUserDetails(value = USER_MAIL)
     void get() throws Exception {

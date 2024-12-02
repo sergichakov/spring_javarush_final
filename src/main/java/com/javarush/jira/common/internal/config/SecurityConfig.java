@@ -54,10 +54,6 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return PASSWORD_ENCODER;
-//    }
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -70,7 +66,7 @@ public class SecurityConfig {
     @Bean
     @Order(1)
     public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
-        http. csrf(AbstractHttpConfigurer::disable)///////////////////////////////////
+        http. csrf(AbstractHttpConfigurer::disable)
 
                 .securityMatcher("/api/**").authorizeHttpRequests()
                 .requestMatchers("/api/admin/**").hasRole(Role.ADMIN.name())
@@ -88,26 +84,20 @@ public class SecurityConfig {
     @Bean
     @Order(2)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http//.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests()
+        http.authorizeHttpRequests()
                 .requestMatchers("/view/unauth/**", "/ui/register/**", "/ui/password/**").anonymous()
                 .requestMatchers("/", "/doc", "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**",
                         "/static/**", "/example/**", "/auth/**", "/view/**").permitAll() //"/view/** мое дополниение
                 .requestMatchers("/ui/admin/**", "/view/admin/**").hasRole(Role.ADMIN.name())
                 .requestMatchers("/ui/mngr/**").hasAnyRole(Role.ADMIN.name(), Role.MANAGER.name())
                 .anyRequest().authenticated()
-                //.and().addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).httpBasic()
-                //.and().formLogin().permitAll() ////это тоже было
-                //.loginPage("/view/login") //////////   это Login page
                 .and().formLogin(form -> form
                         .loginPage("/view/login")
                         .permitAll().defaultSuccessUrl("/", true)
                 )
-                //.defaultSuccessUrl("/", true)///////////////////////////.defaultSuccessUrl("/", true) и это тоже было
-                //.and()
                 .oauth2Login()
                 .loginPage("/view/login")
-                /////////////////////////////.defaultSuccessUrl("/", true)
+                .defaultSuccessUrl("/", true)
                 .tokenEndpoint()
                 .accessTokenResponseClient(accessTokenResponseClient())
                 .and()
@@ -119,7 +109,6 @@ public class SecurityConfig {
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .deleteCookies("JSESSIONID")
-                //.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
                 .and().csrf().disable();
 
         return http.build();
@@ -142,7 +131,7 @@ public class SecurityConfig {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userService.userDetailsService());//////////////////////////////////////////////////
+        authProvider.setUserDetailsService(userService.userDetailsService());
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }

@@ -4,7 +4,7 @@ import com.javarush.jira.login.AuthUser;
 import com.javarush.jira.login.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
-import  com.javarush.jira.login.User;
+import com.javarush.jira.login.User;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,24 +30,18 @@ public class AuthenticationService {
      */
     public JwtAuthenticationResponse signUp(SignUpRequest request) {
 
-        /*var user = User.builder()
-                .username(request.getEmail())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.ROLE_USER)
-                .build();*/
-        User user=new User();
+
+        User user = new User();
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        Set<Role> role=new HashSet<>();
+        Set<Role> role = new HashSet<>();
         role.add(Role.DEV);
         user.setRoles(role);
         userService.create(user);
-        AuthUser authUser=new AuthUser(user);
-        String jwtAccess = jwtService.generateToken(authUser,10 * 60 * 24 * 60, "access");
-        String jwtRefreshToken=jwtService.generateToken(authUser,1000 * 60 * 24, "refresh");
-        System.out.println("JWT sign UP = ");////+jwtAccess+" refresh = "+jwtRefreshToken);
-        return new JwtAuthenticationResponse(jwtAccess,jwtRefreshToken);
+        AuthUser authUser = new AuthUser(user);
+        String jwtAccess = jwtService.generateToken(authUser, 10 * 60 * 24 * 60, "access");//15 min
+        String jwtRefreshToken = jwtService.generateToken(authUser, 1000 * 60 * 24, "refresh");//25 min
+        return new JwtAuthenticationResponse(jwtAccess, jwtRefreshToken);
     }
 
     /**
@@ -57,25 +51,15 @@ public class AuthenticationService {
      * @return токен
      */
     public JwtAuthenticationResponse signIn(SignUpRequest request) {
-//        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    request.getEmail(),
-                    request.getPassword()
-            ));
-//        }catch(DisabledException e){
-//
-//        }catch(BadCredentialsException e){
-//
-//        }
-        System.out.println("Authentication has been completed username!");
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                request.getEmail(),
+                request.getPassword()
+        ));
         var user = userService
                 .userDetailsService()
                 .loadUserByUsername(request.getEmail());
-
-        ////var jwt = jwtService.generateToken(user,);
-        String jwtAccess = jwtService.generateToken(user,10 * 60 * 24 * 60,"access");
-        String jwtRefreshToken=jwtService.generateToken(user,1000 * 60 * 24 , "refresh" );
-        System.out.println(user.getUsername()+"username, password"+user.getPassword()+"! JWTAccess = "+jwtAccess);
+        String jwtAccess = jwtService.generateToken(user, 10 * 60 * 24 * 60, "access");
+        String jwtRefreshToken = jwtService.generateToken(user, 1000 * 60 * 24, "refresh");
         return new JwtAuthenticationResponse(jwtAccess, jwtRefreshToken);
     }
 }

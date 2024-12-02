@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Configuration;
         scheme = "basic"
 )
 
-//@SecurityRequirement(name = "JWT")
 @SecurityScheme(
         name = "JWT",
         bearerFormat = "JWT",
@@ -58,12 +57,4 @@ public class OpenApiConfig {
                 .pathsToMatch("/api/**","/**")//все этдпоинты
                 .build();
     }
-
-   /* private SecurityScheme createAPIKeyScheme() {
-        return new SecurityScheme(){type(SecuritySchemeType.HTTP)
-                .bearerFormat("JWT")
-                .scheme("bearer");
-    }}
-
-  */
 }

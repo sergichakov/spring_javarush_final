@@ -67,7 +67,7 @@ public class MvcConfig implements WebMvcConfigurer {
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
-        lci.setParamName("locale");//"lang"
+        lci.setParamName("locale");
         return lci;
     }
     @Bean
@@ -92,14 +92,12 @@ public class MvcConfig implements WebMvcConfigurer {
     public SimpleUrlHandlerMapping getUrlHandlerMapping() {
         return new SimpleUrlHandlerMapping() {{
             setMappings(new Properties() {{
-                put("/view/**", new UrlFilenameViewController()); ///////// это подозрительно
+                put("/view/**", new UrlFilenameViewController());
             }});
             setOrder(0);
             setInterceptors(authInterceptor);
         }};
     }
-
-
 
     //  https://springdoc.org/index.html#how-can-i-deploy-springdoc-openapi-ui-behind-a-reverse-proxy
     @Bean

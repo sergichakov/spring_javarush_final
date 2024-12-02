@@ -13,11 +13,10 @@ import java.util.Set;
 @RequestMapping(value = TagController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class TagController {
-    public final static String REST_URL="/api/tag"; //{taskID}/";
+    public final static String REST_URL="/api/tag";
     public final TagService tagService;
     @GetMapping("/{taskID}")
     public Set<String> getTags(@PathVariable Long taskID) throws Exception {
-        //Set<TagTo> tags=tagService.getTags(taskID);
         Set<String> tags=tagService.getTags(taskID);
         return tags;
     }

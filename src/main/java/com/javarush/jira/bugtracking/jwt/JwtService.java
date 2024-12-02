@@ -22,11 +22,12 @@ public class JwtService {
     @Value("${token.signing.key}")
     private String jwtSigningKey;
 
-    public String extractState(String token){
-        Claims claims=extractAllClaims(token);
-        String state = claims.get("state",String.class);
+    public String extractState(String token) {
+        Claims claims = extractAllClaims(token);
+        String state = claims.get("state", String.class);
         return state;
     }
+
     /**
      * Извлечение имени пользователя из токена
      *
@@ -34,6 +35,7 @@ public class JwtService {
      * @return имя пользователя
      */
     public String extractUserName(String token) {
+
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -45,15 +47,12 @@ public class JwtService {
      */
     public String generateToken(UserDetails userDetails, int liveMilliSec, String stateOfToken) {
         Map<String, Object> claims = new HashMap<>();
-        if (userDetails instanceof AuthUser customUserDetails) {//AuthUser customUserDetails=(AuthUser)userDetails;//) {
+        if (userDetails instanceof AuthUser customUserDetails) {
             claims.put("state", stateOfToken);
             claims.put("id", customUserDetails.id());
             claims.put("email", customUserDetails.getEmail());
             claims.put("role", customUserDetails.getRole());
-            //claims.put("exp",new Date(System.currentTimeMillis() + 10 * 60 * 24 * 60 )); //100000 * 60 * 24 = 40 hours
         }
-
-        System.out.println("generateToken claims="+claims);
         return generateToken(claims, userDetails, liveMilliSec);
     }
 
