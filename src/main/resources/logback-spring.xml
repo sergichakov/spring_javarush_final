@@ -26,6 +26,8 @@
         </appender>
         <root level="WARN">
             <appender-ref ref="FILE"/>
+            <appender-ref ref="CONSOLE"/><!--            <appender-ref ref="CONSOLE"/> этого тут не было -->
         </root>
+        <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
     </springProfile>
 </configuration>

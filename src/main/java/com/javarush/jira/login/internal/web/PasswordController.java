@@ -34,7 +34,8 @@ public class PasswordController {
         ResetData resetData = new ResetData(email);
         request.getSession().setAttribute("token", resetData);
         eventPublisher.publishEvent(new PasswordResetEvent(user, resetData.getToken()));
-        return "redirect:/view/login";
+        return "redirect:/view/login"; //////////в этом вся Проблема
+        /////////////////return "";
     }
 
     @GetMapping("/change")

@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.javarush.jira.bugtracking.task.TaskUtil.getLatestValue;
@@ -18,6 +20,45 @@ public class ActivityService {
     private final TaskRepository taskRepository;
 
     private final Handlers.ActivityHandler handler;
+
+    public Duration calculateTaskInProgressDuration(Task task) {//Long taskId) {
+        Long taskId = task.getProjectId();
+        List<Activity> actTask = handler.getRepository().findAllByTaskIdOrderByUpdatedDesc(taskId);
+        LocalDateTime readyStatus = null;
+        LocalDateTime inProgressStatus = null;
+        for (Activity act : actTask) {
+            String status = act.getStatusCode();
+            LocalDateTime dateStatus = act.getUpdated();
+            if (status != null && dateStatus != null) {
+                if (status.equals("ready_for_review")) {
+                    readyStatus = dateStatus;
+                } else if (status.equals("in_progress")) {
+                    inProgressStatus = dateStatus;
+                }
+            }
+        }
+        return Duration.between(inProgressStatus, readyStatus);
+    }
+
+    public Duration calculateTaskInTestDuration(Task task) {
+        Long taskId = task.getProjectId();
+        List<Activity> actTask = handler.getRepository().findAllByTaskIdOrderByUpdatedDesc(taskId);
+        LocalDateTime readyStatus = null;
+        LocalDateTime doneStatus = null;
+        for (Activity act : actTask) {
+            String status = act.getStatusCode();
+            LocalDateTime dateStatus = act.getUpdated();
+            if (status != null && dateStatus != null) {
+                if (status.equals("ready_for_review")) {
+                    readyStatus = dateStatus;
+                } else if (status.equals("done")) {
+                    doneStatus = dateStatus;
+                }
+            }
+        }
+        return Duration.between(doneStatus, readyStatus);
+
+    }
 
     private static void checkBelong(HasAuthorId activity) {
         if (activity.getAuthorId() != AuthUser.authId()) {

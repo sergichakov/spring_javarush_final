@@ -6,6 +6,8 @@ import org.springframework.lang.NonNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.Set;
+
 import static java.util.Objects.requireNonNull;
 
 public class AuthUser extends org.springframework.security.core.userdetails.User {
@@ -60,5 +62,11 @@ public class AuthUser extends org.springframework.security.core.userdetails.User
     @Override
     public String toString() {
         return "AuthUser:" + user.getId() + '[' + user.getEmail() + ']';
+    }
+    public String getEmail(){
+        return user.getEmail();
+    }
+    public Set<Role> getRole(){
+        return user.getRoles();
     }
 }

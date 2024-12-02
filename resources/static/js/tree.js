@@ -236,6 +236,7 @@ function prepareTaskMoveToItem(taskNode, sprintsAndBacklog) {
                     data: {
                         sprintId: id
                     }
+
                 }).done(() => {
                     moveTaskNodeToSprintNode(taskNode, sprintNode);
                 });

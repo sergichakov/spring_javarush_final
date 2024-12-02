@@ -1,0 +1,73 @@
+#version: '3.9'
+
+#services:
+#  postgres:
+#    image: postgres:latest
+#    ports:
+#      - 5432:5432
+#    volumes:
+#      - ~/apps/postgres:/var/lib/postgresql/data
+#    environment:
+#      - POSTGRES_PASSWORD=anton
+#      - POSTGRES_USER=anton
+#      - POSTGRES_DB=elective
+#  application_jira:
+#    build:
+#      dockerfile: Dockerfile
+#    ports:
+#      - 8080:8080
+
+
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:13.3
+    ports:
+      - 5432:5432
+    volumes:
+#      - /home/user/IdeaProjects/spring_javarush_final/spring_javarush_final/config:/docker-entrypoint-initdb.d #/var/lib/postgresql/data
+      - ./config:/docker-entrypoint-initdb.d
+    environment:
+      - POSTGRES_PASSWORD=JiraRush
+      - POSTGRES_USER=jira
+      - POSTGRES_DB=jira
+  application:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    ports:
+      - 8080:8080
+#  nginx_server:
+#    image: nginx:1.27.3-alpine
+#    ports:
+#      - 80:80
+#    volumes:
+#      - resources:/opt/jirarush/resources
+#      - config:/etc/nginx
+#  nginx_2:
+#    image: nginx:latest
+#    ports:
+#      - 80:80
+#    volumes:
+#      - config:/etc/nginx
+  nginx_ser_2:
+    build:
+      dockerfile: ./config/Dockerfile
+      context: .
+    ports:
+      - 80:80
+    volumes:
+      - ./resources:/opt/jirarush/resources
+      - ./resources:/usr/share/nginx/html
+        #build: # . (path contains Dockerfile)
+    #tty: true
+#
+#        ports:
+#          - "61003:61003"
+#        volumes:
+#          - ./carrier:/var/local/Config/
+
+#    build:
+#      dockerfile: Dockerfile #config/Dockerfile
+

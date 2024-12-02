@@ -44,7 +44,8 @@ public class RegisterController extends AbstractUserController {
         ConfirmData confirmData = new ConfirmData(userTo);
         request.getSession().setAttribute("token", confirmData);
         eventPublisher.publishEvent(new RegistrationConfirmEvent(userTo, confirmData.getToken()));
-        return "redirect:/view/login";
+        return "redirect:/view/login"; //на этот есть Test Case
+        ///return "";
     }
 
     @GetMapping("/confirm")
@@ -55,7 +56,8 @@ public class RegisterController extends AbstractUserController {
             handler.createFromTo(confirmData.getUserTo());
             session.invalidate();
             status.setComplete();
-            return "login";
+            return "login"; ///////////////////////////
+            ////////////////////return "";
         }
         throw new DataConflictException("Token mismatch error");
     }

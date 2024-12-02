@@ -65,10 +65,13 @@ public class Task extends TitleEntity implements HasCode {
             joinColumns = @JoinColumn(name = "task_id"),
             uniqueConstraints = @UniqueConstraint(columnNames = {"task_id", "tag"}, name = "uk_task_tag"))
     @Column(name = "tag")
-    @ElementCollection(fetch = FetchType.LAZY)
+    @ElementCollection(fetch = FetchType.EAGER)                                         //fetch = FetchType.LAZY)
     @JoinColumn()
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Set<@Size(min = 2, max = 32) String> tags = Set.of();
+     private Set<@Size(min = 2, max = 32) String> tags = Set.of();
+//    @OneToMany(mappedBy = "task_id", fetch=FetchType.LAZY)
+//@OnDelete(action = OnDeleteAction.CASCADE)
+//    private Set<String> tags;// = Set.of();
 
     //  history of comments and task fields changing
     @OneToMany(mappedBy = "taskId", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)

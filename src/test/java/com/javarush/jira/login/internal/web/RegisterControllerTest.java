@@ -45,7 +45,7 @@ class RegisterControllerTest extends AbstractControllerTest {
                         .param("displayName", "newDisplayName")
                         .with(csrf()))
                         .andExpect(status().isFound())
-                        .andExpect(redirectedUrl("/view/login"))
+                        .andExpect(redirectedUrl("/view/login"))// Это TEST case
                         .andReturn()
                         .getRequest()
                         .getSession())
