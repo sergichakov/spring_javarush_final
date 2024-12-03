@@ -93,6 +93,14 @@ public class Handlers {
             super(repository, mapper);
         }
     }
+    /*@Component
+    public static class TagHandler extends UserBelongHandler<Task, TaskTo, TaskRepository, TaskMapper>{
+        public TagHandler(TaskRepository repository, TaskMapper mapper) {
+            super(repository, mapper);
+        }
+    }
+
+     */
 
     @Slf4j
     public static class UserBelongHandler<E extends HasId, T extends BaseTo, R extends BaseRepository<E>, M extends BaseMapper<E, T>> extends BaseHandler<E, T, R, M> {

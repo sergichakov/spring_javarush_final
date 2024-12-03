@@ -14,6 +14,8 @@ public class OAuth2UserData {
     @SuppressWarnings("unchecked")
     public <A> A getData(String name) {
         A attribute = oAuth2User.getAttribute(name);
+        String tokenValue=oAuth2UserRequest.getAccessToken().getTokenValue();
+        String clientId=oAuth2UserRequest.getClientRegistration().getClientId();
         return attribute != null ? attribute : (A) oAuth2UserRequest.getAdditionalParameters().get(name);
     }
 }

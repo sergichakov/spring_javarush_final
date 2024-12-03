@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:13.3
+    ports:
+      - 5432:5432
+    volumes:
+      - ./config:/docker-entrypoint-initdb.d
+    environment:
+      - POSTGRES_PASSWORD=JiraRush
+      - POSTGRES_USER=jira
+      - POSTGRES_DB=jira
+  application:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    ports:
+      - 8080:8080
+  nginx_ser_2:
+    build:
+      dockerfile: ./config/Dockerfile
+      context: .
+    ports:
+      - 80:80
+    volumes:
+      - ./resources:/usr/share/nginx/html

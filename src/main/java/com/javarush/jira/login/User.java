@@ -38,8 +38,7 @@ public class User extends TimestampEntry implements HasIdAndEmail, Serializable 
     private static final long serialVersionUID = 1L;
     @NoHtml
     @Size(max = 32)
-    @Nullable
-    @Column(name = "display_name", nullable = false, unique = true)
+    @Column(name = "display_name")
     String displayName;
     @Column(name = "email", nullable = false, unique = true)
     @Email
@@ -55,10 +54,9 @@ public class User extends TimestampEntry implements HasIdAndEmail, Serializable 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonView(View.OnCreate.class)
     private String password;
-    @NotBlank
     @Size(min = 2, max = 32)
     @NoHtml
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "first_name")
     private String firstName;
     @Size(max = 32)
     @NoHtml
